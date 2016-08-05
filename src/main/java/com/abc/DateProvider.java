@@ -15,4 +15,12 @@ public class DateProvider {
     public Date now() {
         return Calendar.getInstance().getTime();
     }
+    
+	public static Date addDays(final Date startDate, final int daysToAdd) {
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(startDate);
+		cal.add(Calendar.DATE, daysToAdd); 
+		return cal.getTime();
+	}
+
 }

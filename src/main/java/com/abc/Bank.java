@@ -1,46 +1,47 @@
 package com.abc;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Bank {
-    private List<Customer> customers;
-
-    public Bank() {
-        customers = new ArrayList<Customer>();
+    
+	private final Map<Integer, Customer> _customerMap = new LinkedHashMap<Integer, Customer>(); // insertion order
+    
+    public void addCustomer(final Customer customer) {
+    	if (_customerMap.containsKey(customer.getSSN())) {
+    		throw new RuntimeException("The customer with SSN " + customer.getSSN() + " is already a client in this bank. Operation addCustomer failed."); // can add more logging here to compare old and new customers
+    	}
+    	
+    	System.out.println("Adding Customer " + customer.getFullName());  // TODO: add proper logging here
+    	_customerMap.put(customer.getSSN(), customer);
     }
 
-    public void addCustomer(Customer customer) {
-        customers.add(customer);
-    }
-
-    public String customerSummary() {
-        String summary = "Customer Summary";
-        for (Customer c : customers)
-            summary += "\n - " + c.getName() + " (" + format(c.getNumberOfAccounts(), "account") + ")";
-        return summary;
-    }
-
-    //Make sure correct plural of word is created based on the number passed in:
-    //If number passed in is 1 just return the word otherwise add an 's' at the end
-    private String format(int number, String word) {
-        return number + " " + (number == 1 ? word : word + "s");
+    // TODO: this should convert to reporting framework
+    public String printCustomerSummary() {
+        final StringBuffer summaryBuffer = new StringBuffer(ABCBankUtil.CUSTOMER_SUMMARY);
+        for (final Customer customer : _customerMap.values()) {
+        	summaryBuffer.append(ABCBankUtil.BREAK).append(ABCBankUtil.DASH);
+        	summaryBuffer.append(customer.getFullName());
+        	int numberOfAccounts = customer.getNumberOfAccounts();
+        	summaryBuffer.append(ABCBankUtil.OPEN_PAREN).append(numberOfAccounts).append(ABCBankUtil.SPACE).append( (numberOfAccounts == 1) ? ABCBankUtil.ACCONT : ABCBankUtil.ACCOUNTS).append(ABCBankUtil.CLOSE_PAREN);
+        }
+        return summaryBuffer.toString().trim();
     }
 
     public double totalInterestPaid() {
-        double total = 0;
-        for(Customer c: customers)
-            total += c.totalInterestEarned();
+        double total = 0d;
+        for(final Customer customer : _customerMap.values()) {
+            total += customer.totalInterestEarned();
+        }
         return total;
     }
 
     public String getFirstCustomer() {
-        try {
-            customers = null;
-            return customers.get(0).getName();
-        } catch (Exception e){
-            e.printStackTrace();
-            return "Error";
-        }
+    	if (!_customerMap.isEmpty()) {
+    		return _customerMap.values().iterator().next().getFullName();
+    	}
+
+    	// TODO: if more error handling is needed here, it could be implemented through logging or SNMP Trap
+    	return ("This bank is not doing too well");
     }
 }
