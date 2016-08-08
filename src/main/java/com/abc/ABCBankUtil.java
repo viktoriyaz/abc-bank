@@ -16,51 +16,51 @@ public final class ABCBankUtil {
 		CHECKING("Checking Account"),
 		SAVINGS("Savings Account"),
 		MAXI_SAVINGS("Maxi Savings Account");
-		
+
 		private final String _displayName;
-		
+
 		private AccountType(final String displayName) {
 			_displayName = displayName;
 		}
-		
+
 		public String getDisplayName() {
 			return _displayName;
 		}
-		
+
 		@Override
 		public String toString() {
 			return getDisplayName();
 		}
 	}
-	
-    public static enum TransactionType {
-    	DEPOSIT("deposit"),
-    	WITHDRAWAL("withdrawal");
 
-    	private final String _displayName;
+	public static enum TransactionType {
+		DEPOSIT("deposit"),
+		WITHDRAWAL("withdrawal");
 
-    	private TransactionType (final String displayName) {
-    		_displayName = displayName;
-    	}
+		private final String _displayName;
 
-    	public String getDisplayName() {
-    		return _displayName;
-    	}
+		private TransactionType (final String displayName) {
+			_displayName = displayName;
+		}
 
-    	@Override
-    	public String toString() {
-    		return getDisplayName();
-    	}
-    }
-    
-    public static boolean isDateBeforeXDaysBack(final Date dateToCheck, final int daysBack) {
-    	if (dateToCheck == null) {
-    		return true;
-    	}
-    	
-    	final Date now = DateProvider.getInstance().now();
-    	final Date xDaysBack = DateProvider.addDays(now, 0 - DAYS_BACK);
-    	return dateToCheck.before(xDaysBack);
-    }
+		public String getDisplayName() {
+			return _displayName;
+		}
+
+		@Override
+		public String toString() {
+			return getDisplayName();
+		}
+	}
+
+	public static boolean isDateBeforeXDaysBack(final Date dateToCheck, final int daysBack) {
+		if (dateToCheck == null) {
+			return true;
+		}
+
+		final Date now = DateProvider.getInstance().now();
+		final Date xDaysBack = DateProvider.addDays(now, 0 - DAYS_BACK);
+		return dateToCheck.before(xDaysBack);
+	}
     
 }

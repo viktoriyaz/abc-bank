@@ -10,7 +10,8 @@ public class ABCBankExample {
 	public static void main(String[] args) {
 
 		final Bank abcBank = new Bank();
-		System.out.println(abcBank.getFirstCustomer());
+		final Customer firstCustomer = abcBank.getFirstCustomer();
+		System.out.println( firstCustomer == null ? "This bank is not doing too well" : firstCustomer);
 		System.out.println(abcBank.printCustomerSummary());
 		System.out.println("___________________________\n");
 		
@@ -53,8 +54,8 @@ public class ABCBankExample {
 		System.out.println(customer2.getStatement());
 		System.out.println("___________________________\n");
 
-		System.out.println("With Withdrawal interest on total " + account2_3.getTotal() + " = " + account2_3.interestEarned());
-		System.out.println("Without Withdrawal interest on total " + account2_3.getTotal() + " = " + account2_4.interestEarned());
+		System.out.println("With Withdrawal interest on total " + account2_3.getTotal() + " = " + account2_3.getInterestEarned());
+		System.out.println("Without Withdrawal interest on total " + account2_3.getTotal() + " = " + account2_4.getInterestEarned());
 		
 	}
 

@@ -63,10 +63,10 @@ public class Customer implements Identified {
     	}
     }
 
-    public double totalInterestEarned() {
+    public double getTotalInterestEarned() {
         double total = 0d;
         for (final Account account : _accounts) {
-            total += account.interestEarned();
+            total += account.getInterestEarned();
         }
         return total;
     }
@@ -125,6 +125,11 @@ public class Customer implements Identified {
     
 	public int getId() {
 		return _ssn;
+	}
+	
+	@Override
+	public String toString() {
+		return getFullName();
 	}
 	
 	@Override

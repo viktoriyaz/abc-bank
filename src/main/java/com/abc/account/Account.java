@@ -32,7 +32,7 @@ public abstract class Account implements Identified {
         _id = seq.incrementAndGet();
     }
 
-    public abstract double interestEarned();
+    public abstract double getInterestEarned();
 
     public void deposit(double amount) {
         if (amount <= 0d) {

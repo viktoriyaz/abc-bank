@@ -1,5 +1,7 @@
 package com.abc;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -16,6 +18,27 @@ public class Bank {
     	_customerMap.put(customer.getSSN(), customer);
     }
 
+    public Customer getFirstCustomer() {
+    	if (!_customerMap.isEmpty()) {
+    		return _customerMap.values().iterator().next();
+    	}
+
+    	// TODO: if more error handling is needed here, it could be implemented through logging or SNMP Trap
+    	return null;
+    }
+
+    public Collection<Customer> getAllCustomers() {
+    	return Collections.unmodifiableCollection(_customerMap.values());
+    }
+    
+    public double getTotalInterestPaid() {
+        double total = 0d;
+        for(final Customer customer : _customerMap.values()) {
+            total += customer.getTotalInterestEarned();
+        }
+        return total;
+    }
+
     // TODO: this should convert to reporting framework
     public String printCustomerSummary() {
         final StringBuffer summaryBuffer = new StringBuffer(ABCBankUtil.CUSTOMER_SUMMARY);
@@ -28,20 +51,4 @@ public class Bank {
         return summaryBuffer.toString().trim();
     }
 
-    public double totalInterestPaid() {
-        double total = 0d;
-        for(final Customer customer : _customerMap.values()) {
-            total += customer.totalInterestEarned();
-        }
-        return total;
-    }
-
-    public String getFirstCustomer() {
-    	if (!_customerMap.isEmpty()) {
-    		return _customerMap.values().iterator().next().getFullName();
-    	}
-
-    	// TODO: if more error handling is needed here, it could be implemented through logging or SNMP Trap
-    	return ("This bank is not doing too well");
-    }
 }
